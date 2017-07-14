@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AdminManageDAO">
+    
+    <typeAlias  alias="ApplicantDto" type="egovframework.com.cop.com.service.ApplicantDto"/>
+    <typeAlias  alias="AdminDto" type="egovframework.com.cop.com.service.AdminDto"/>
+    
+    <!-- 후보 리스트 -->
+     <select id="AdminManageDAO.selectApplicant" parameterClass="java.util.LinkedHashMap" resultClass="java.util.LinkedHashMap">
+        <![CDATA[
+              SELECT A.APPLICANT_ID
+              , B.NAME
+              , B.PHOTO_PATH
+              , B.FILENAME
+              , NVL(A.VOTE_COUNT,0) VOTE_COUNT
+            FROM
+             (
+            SELECT APPLICANT_TABLE.APPLICANT_ID, SUM(VOTER_TABLE.VOTE_COUNT) VOTE_COUNT
+              FROM 
+              APPLICANT APPLICANT_TABLE
+              LEFT JOIN 
+              (
+                SELECT APPLICANT_ID, COUNT(1) VOTE_COUNT  FROM VOTER
+                GROUP BY (APPLICANT_ID)
+              )VOTER_TABLE 
+              ON VOTER_TABLE.APPLICANT_ID = APPLICANT_TABLE.APPLICANT_ID
+              GROUP BY ROLLUP (APPLICANT_TABLE.APPLICANT_ID)
+              ) A LEFT JOIN APPLICANT B
+              ON A.APPLICANT_ID = B.APPLICANT_ID
+              ORDER BY A.APPLICANT_ID ASC
+        ]]>
+    </select>
+    
+    <!-- 후보 등록 -->
+     <insert id="AdminManageDAO.insertApplicant"  parameterClass="ApplicantDto"  >
+         <![CDATA[ 
+         INSERT INTO APPLICANT VALUES(APPLICANT_SEQ_01.nextval,#name#,#photo_path#,#fileName#)
+              ]]>
+    </insert>
+     
+     <!-- 후보 수정 -->
+    <update id="AdminManageDAO.updateApplicant"  parameterClass="ApplicantDto"  >
+         <![CDATA[ 
+             UPDATE APPLICANT SET NAME = #name#
+         ]]> 
+             <isNotNull  property="photo_path">
+             , PHOTO_PATH = #photo_path#, FILENAME = #fileName#
+             </isNotNull >
+         <![CDATA[ 
+             WHERE APPLICANT_ID = #no#
+         ]]>
+              
+     </update>
+     
+    <!-- 후보 삭제 -->
+    <delete id="AdminManageDAO.deleteApplicant" parameterClass="ApplicantDto">
+      <![CDATA[ DELETE FROM APPLICANT WHERE APPLICANT_ID = #no#]]>
+     </delete>
+     
+    <!-- 관리자정보 -->
+    <select id="AdminManageDAO.selectManager" parameterClass="AdminDto" resultClass="AdminDto">
+        <![CDATA[
+        SELECT id, password
+        FROM MEMBER
+        WHERE id = #id#  AND password = #password#
+        ]]>
+    </select>
+    
+</sqlMap>

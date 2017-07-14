@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+@font-face {
+        font-family:'NanumGothic';
+        src: url('/kywa_provoter/font/NanumGothicExtraBold.eot');
+        src: url('/kywa_provoter/font/NanumGothicExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('/kywa_provoter/font/NanumGothicExtraBold.woff') format('woff'),
+        url('/kywa_provoter/font/NanumGothicExtraBold.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal; 
+        }
+    
+body { margin: 0; padding: 0; text-align: center; background-color: #f6f6f6 }
+img.background { width: 100%; height:auto; }
+img.top5Sign { width: 25% }
+img.applicantSign { width: 30%; }
+img.linkbut { width: 100%; }
+button { background:transparent; border: 0; }
+button.voteBtn { width:10%; }
+@media (max-width:360px){html{font-size:10px;}}
+@media (min-width:478px) and (max-width:591px){html{font-size:11px;}}
+@media (min-width:592px) and (max-width:705px){html{font-size:12px;}}
+@media (min-width:706px) and (max-width:819px){html{font-size:13px;}}
+@media (min-width:820px) and (max-width:933px){html{font-size:14px;}}
+@media (min-width:934px) and (max-width:1047px){html{font-size:15px;}}
+@media (min-width:1048px) and (max-width:1161px){html{font-size:16px;}}
+@media (min-width:1162px) and (max-width:1275px){html{font-size:17px;}}
+@media (min-width:1276px) and (max-width:1389px){html{font-size:18px;}}
+@media (min-width:1390px) and (max-width:1503px){html{font-size:19px;}}
+@media (min-width:1504px) and (max-width:1617px){html{font-size:20px;}}
+@media (min-width:1618px) and (max-width:1731px){html{font-size:21px;}}
+@media (min-width:1732px) and (max-width:1845px){html{font-size:22px;}}
+@media (min-width:1846px) and (max-width:1959px){html{font-size:23px;}}
+@media (min-width:1960px){html{font-size:24px;}}
+F1 { font-size:0.8rem; font-family: 'NanumGothic' ,'맑은 고딕'; word-spacing: 4px; letter-spacing: 1px; color:#595959;}
+
+.top5Contents { width:100%; display:inline-block; background-color: #f7f5f5; }
+.applicantContents { width:100%; display:inline-block; background-color: #ededed; }
+.applicantTopPadding { padding-top: 5%; }
+.applicantBottomPadding { padding-bottom: 15%; }
+.topPadding { padding-top: 2%; }
+.bottomPadding { padding-bottom: 2%; }
+.radius { width: 100%; border-radius: 500px; -moz-border-radius: 500px; -webkit-border-radius: 500px; -o-border-radius: 500px; }
+.top5Border { border:12px solid;  border-color:rgba(54,108,196,0.3); }
+.listBorder { border: 4px solid; border-color: #ededed; cursor:pointer; }
+.imageSize { width:19%; display:inline-block; min-height: 1px;}
+.imageSize.TOP1 { diplay:inline-block; width:17%; position: relative; min-height: 1px; float: left; margin: 0 1.5% 0 1.5%; display:inline-block;}
+.imageSize.TOP5 { diplay:inline-block; width:20%; position: relative; min-height: 1px; float: left; padding:0 10px; }
+.linkURL{ position: relative; width: 100%; top: -15px; margin-top: -4%; }
+.fixed-menu { overflow: hidden; position: fixed; bottom: 0; width:87%; text-align: right; margin-left:0px; margin-bottom:5%; }
+
+.app-contents {
+    width:100%;display:inline-block;padding: 0 5%;
+}
+.link-btn { width:20% }
+.stats-vote-pan  { text-align: right; margin-right:3%; }
+
+.stats-vote-pan .today {color:orange;}
+
+.top-crown {width:50%;}
+
+
+.footer-pan { background:#ededed; }
+

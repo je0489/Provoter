@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mainDAO">
+
+     <select id="mainDAO.selectApplicantList" parameterClass="java.util.LinkedHashMap" resultClass="java.util.LinkedHashMap">
+        <![CDATA[
+            SELECT * 
+            FROM APPLICANT
+            ORDER BY NAME
+        ]]>
+        <!-- /////////////////////////////// 이전 쿼리
+        SELECT A.APPLICANT_ID
+              , A.NAME
+              , A.PHOTO_PATH
+              , NVL(B.COUNT,0) VOTE_COUNT
+            FROM APPLICANT A LEFT JOIN ( SELECT APPLICANT_ID, COUNT(1) AS COUNT FROM VOTER GROUP BY APPLICANT_ID )B
+            ON A.APPLICANT_ID = B.APPLICANT_ID
+            ORDER BY VOTE_COUNT DESC, NAME
+         -->
+    </select>
+    
+     <select id="mainDAO.selectVoterIP" parameterClass="java.lang.String" resultClass="java.lang.String">
+        <![CDATA[
+            SELECT APPLICANT_ID
+            FROM VOTER
+            WHERE USER_IP = #ip# AND VOTE_DATE = TO_CHAR(SYSDATE,'YY/MM/DD')
+        ]]>
+    </select>
+    
+    <insert id="mainDAO.insertVote"  parameterClass="java.util.LinkedHashMap"  >
+         <![CDATA[ 
+            INSERT INTO VOTER VALUES(#ip#,TO_CHAR(SYSDATE,'YY/MM/DD'),TO_NUMBER(#no#))
+          ]]>
+    </insert>
+    
+    <select id="mainDAO.selecttopfive" resultClass="java.util.LinkedHashMap">
+        <![CDATA[
+            SELECT *
+            FROM ( SELECT APPLICANT_TABLE.APPLICANT_ID
+                            , APPLICANT_TABLE.NAME
+                            , APPLICANT_TABLE.PHOTO_PATH
+                            , VOTER_TABLE.VOTE_COUNT VOTE_COUNT
+                        FROM 
+                        APPLICANT APPLICANT_TABLE, ( 
+                          SELECT APPLICANT_ID, COUNT(1) VOTE_COUNT  
+                          FROM VOTER 
+                          GROUP BY APPLICANT_ID 
+                          )VOTER_TABLE
+                          
+                        WHERE VOTER_TABLE.APPLICANT_ID = APPLICANT_TABLE.APPLICANT_ID
+                        AND VOTE_COUNT IS NOT NULL
+                        ORDER BY VOTE_COUNT DESC )
+            WHERE ROWNUM <= 5
+        ]]>
+    </select>
+   
+    <!-- TODAY -->
+    <select id="mainDAO.selecttoday" resultClass="java.lang.String">
+         <![CDATA[       
+             SELECT TO_CHAR(todayCount,'999,999,999,999') AS TODAY 
+             FROM (SELECT COUNT(1) as todayCount FROM VOTER 
+                    WHERE VOTE_DATE = TO_CHAR(SYSDATE))
+         ]]>
+    </select>
+    
+    <!-- TOTAL -->
+    <select id="mainDAO.selecttotal" resultClass="java.lang.String">
+         <![CDATA[
+             SELECT TO_CHAR(totalCount,'999,999,999,999') AS TOTAL
+             FROM ( SELECT COUNT(1) AS totalCount FROM VOTER)
+         ]]>
+    </select>
+</sqlMap>
